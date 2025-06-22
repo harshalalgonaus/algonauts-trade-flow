@@ -8,14 +8,18 @@ export const Header = () => {
     <header className="relative bg-white border-b border-gray-200 sticky top-0 z-50 backdrop-blur-sm bg-white/95">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 <div className="relative flex items-center justify-between py-4">
-<div className="flex items-center space-x-2 z-10 cursor-pointer hover:scale-105 transition-transform duration-300">
-  <img
-    src="logo.jpeg"
-    alt="Algonauts Logo"
-    className="h-8 w-auto"
-  />
-  <span className="text-2xl font-bold text-black">ALGONAUTS</span>
-</div>
+  <div className="flex items-center space-x-2 z-10 cursor-pointer hover:scale-105 transition-transform duration-300">
+    <img
+      src="logo.jpeg"
+      alt="Algonauts Logo"
+      className="h-16 w-auto"
+    />
+    <div className="flex flex-col leading-tight">
+      <span className="text-xl font-bold text-black text-center">ALGONAUTS</span>
+      <span className="text-xl font-bold text-black text-center">TECHNOLOGIES</span>
+    </div>
+  </div>
+
 
 
   {/* Centered Navigation - Absolute Center */}
