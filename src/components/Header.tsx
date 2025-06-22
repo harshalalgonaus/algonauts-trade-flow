@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 
@@ -25,7 +26,7 @@ export const Header = () => {
   {/* Centered Navigation - Absolute Center */}
   <nav className="hidden lg:flex space-x-8 absolute left-1/2 transform -translate-x-1/2">
     {[
-      ['About Us', '#about'],
+      ['Founder\'s Vision', '/founders-vision'],
       ['Cash Management', '#cash-management'],
       ['Equity Management', '#equity-management'],
       ['Algorithmic Trading', '#algorithmic-trading'],
@@ -105,8 +106,8 @@ export const Header = () => {
               <a href="#technology" className="text-gray-700 hover:text-black transition-all duration-300 hover:translate-x-2">
                 Technology
               </a>
-              <a href="#about" className="text-gray-700 hover:text-black transition-all duration-300 hover:translate-x-2">
-                About Us
+              <a href="/founders-vision" className="text-gray-700 hover:text-black transition-all duration-300 hover:translate-x-2">
+                Founder's Vision
               </a>
               <a href="#contact" className="text-gray-700 hover:text-black transition-all duration-300 hover:translate-x-2">
                 Contact
