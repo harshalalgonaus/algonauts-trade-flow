@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import FoundersVision from "./pages/FoundersVision";
 import OpenAccount from "./pages/OpenAccount";
+import CashManagement from "./pages/CashManagement";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -21,6 +22,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/founders-vision" element={<FoundersVision />} />
           <Route path="/open-account" element={<OpenAccount />} />
+          <Route path="/cash-management" element={<CashManagement />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

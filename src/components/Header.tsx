@@ -26,7 +26,7 @@ export const Header = () => {
           <nav className="hidden lg:flex space-x-8 absolute left-1/2 transform -translate-x-1/2">
             {[
               ['Founder\'s Vision', '/founders-vision'],
-              ['Cash Management', '#cash-management'],
+              ['Cash Management', '/cash-management'],
               ['F&O Management', '#equity-management'],
               ['Algorithmic Trading', '#algorithmic-trading'],
               ['Risk Management', '#risk-management'],
@@ -88,7 +88,7 @@ export const Header = () => {
         {isMenuOpen && (
           <div className="lg:hidden pb-4 animate-[fade-in_0.3s_ease-out]">
             <nav className="flex flex-col space-y-4">
-              <a href="#cash-management" className="text-gray-700 hover:text-black transition-all duration-300 hover:translate-x-2">
+              <a href="/cash-management" className="text-gray-700 hover:text-black transition-all duration-300 hover:translate-x-2">
                 Cash Management
               </a>
               <a href="#equity-management" className="text-gray-700 hover:text-black transition-all duration-300 hover:translate-x-2">
