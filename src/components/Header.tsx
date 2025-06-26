@@ -31,16 +31,23 @@ export const Header = () => {
               ['Algorithmic Trading', '#algorithmic-trading'],
               ['Risk Management', '#risk-management'],
               ['Portfolio Analytics', '#portfolio-analytics'],
-              ['Contact', '#contact']
+              ['Contact', '/contact-us']
             ].map(([name, link]) => (
-              <a
+              <Link
                 key={link}
-                href={link}
+                to={link.startsWith('#') ? '/' : link}
+                onClick={link.startsWith('#') ? (e) => {
+                  e.preventDefault();
+                  const element = document.querySelector(link);
+                  if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                  }
+                } : undefined}
                 className="text-gray-700 hover:text-black text-sm transition-all duration-300 hover:scale-105 relative group text-center block"
               >
                 {name}
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
-              </a>
+              </Link>
             ))}
           </nav>
 
@@ -88,12 +95,12 @@ export const Header = () => {
         {isMenuOpen && (
           <div className="lg:hidden pb-4 animate-[fade-in_0.3s_ease-out]">
             <nav className="flex flex-col space-y-4">
-              <a href="/cash-management" className="text-gray-700 hover:text-black transition-all duration-300 hover:translate-x-2">
+              <Link to="/cash-management" className="text-gray-700 hover:text-black transition-all duration-300 hover:translate-x-2">
                 Cash Management
-              </a>
-              <a href="/fo-management" className="text-gray-700 hover:text-black transition-all duration-300 hover:translate-x-2">
+              </Link>
+              <Link to="/fo-management" className="text-gray-700 hover:text-black transition-all duration-300 hover:translate-x-2">
                 F&O Management
-              </a>
+              </Link>
               <a href="#algorithmic-trading" className="text-gray-700 hover:text-black transition-all duration-300 hover:translate-x-2">
                 Algorithmic Trading
               </a>
@@ -106,12 +113,12 @@ export const Header = () => {
               <a href="#technology" className="text-gray-700 hover:text-black transition-all duration-300 hover:translate-x-2">
                 Technology
               </a>
-              <a href="/founders-vision" className="text-gray-700 hover:text-black transition-all duration-300 hover:translate-x-2">
+              <Link to="/founders-vision" className="text-gray-700 hover:text-black transition-all duration-300 hover:translate-x-2">
                 Founder's Vision
-              </a>
-              <a href="#contact" className="text-gray-700 hover:text-black transition-all duration-300 hover:translate-x-2">
+              </Link>
+              <Link to="/contact-us" className="text-gray-700 hover:text-black transition-all duration-300 hover:translate-x-2">
                 Contact
-              </a>
+              </Link>
 
               {/* CTA Buttons in Mobile */}
               <div className="w-full flex justify-end">

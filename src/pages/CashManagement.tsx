@@ -4,6 +4,7 @@ import { Footer } from '@/components/Footer';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, TrendingUp, Eye, Target, Shield, BarChart3, Clock } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const CashManagement = () => {
   const features = [
@@ -89,9 +90,6 @@ const CashManagement = () => {
             <Button className="bg-white text-black hover:bg-gray-100 px-8 py-3 text-lg group transition-all duration-300 hover:scale-105">
               Get Started
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
-            </Button>
-            <Button variant="outline" className="border-white text-white hover:bg-white hover:text-black px-8 py-3 text-lg transition-all duration-300 hover:scale-105">
-              Learn More
             </Button>
           </div>
         </div>
@@ -182,9 +180,11 @@ const CashManagement = () => {
               Start Trading
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
             </Button>
-            <Button variant="outline" className="border-white text-white hover:bg-white hover:text-black px-8 py-3 text-lg transition-all duration-300 hover:scale-105">
-              Contact Us
-            </Button>
+            <Link to="/contact-us">
+              <Button variant="outline" className="border-white text-white hover:bg-white hover:text-black px-8 py-3 text-lg transition-all duration-300 hover:scale-105">
+                Contact Us
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

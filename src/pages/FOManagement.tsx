@@ -1,5 +1,6 @@
 
 import { Header } from '@/components/Header';
+import { Footer } from '@/components/Footer';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Shield, TrendingUp, Target, Zap, Eye, AlertTriangle, Filter, RotateCcw, BarChart3 } from 'lucide-react';
 
@@ -138,6 +139,8 @@ const FOManagement = () => {
           </p>
         </div>
       </div>
+      
+      <Footer />
     </div>
   );
 };
