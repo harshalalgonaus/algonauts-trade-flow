@@ -1,4 +1,3 @@
-
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -63,6 +62,29 @@ const Services = () => {
     }
   ];
 
+  // Helper function to get the correct classes based on color
+  const getColorClasses = (color) => {
+    const colorMap = {
+      blue: {
+        bg: 'bg-blue-100',
+        bullet: 'bg-blue-500'
+      },
+      purple: {
+        bg: 'bg-purple-100',
+        bullet: 'bg-purple-500'
+      },
+      green: {
+        bg: 'bg-green-100',
+        bullet: 'bg-green-500'
+      },
+      orange: {
+        bg: 'bg-orange-100',
+        bullet: 'bg-orange-500'
+      }
+    };
+    return colorMap[color] || colorMap.blue;
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <Header />
@@ -104,51 +126,55 @@ const Services = () => {
           </div>
 
           <div className="grid lg:grid-cols-2 gap-8">
-            {services.map((service, index) => (
-              <Card key={index} className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-0 shadow-lg relative overflow-hidden">
-                {service.badge && (
-                  <div className="absolute top-4 right-4 z-10">
-                    <span className="bg-orange-100 text-orange-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
-                      {service.badge}
-                    </span>
-                  </div>
-                )}
-                
-                <CardHeader className="text-center pb-4">
-                  <div className={`mx-auto mb-4 p-4 bg-${service.color}-100 rounded-full w-fit group-hover:scale-110 transition-transform duration-300`}>
-                    {service.icon}
-                  </div>
-                  <CardTitle className="text-2xl font-bold text-gray-900 mb-2">
-                    {service.title}
-                  </CardTitle>
-                </CardHeader>
-                
-                <CardContent className="space-y-6">
-                  <CardDescription className="text-gray-600 text-base leading-relaxed">
-                    {service.description}
-                  </CardDescription>
+            {services.map((service, index) => {
+              const colorClasses = getColorClasses(service.color);
+              
+              return (
+                <Card key={index} className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-0 shadow-lg relative overflow-hidden">
+                  {service.badge && (
+                    <div className="absolute top-4 right-4 z-10">
+                      <span className="bg-orange-100 text-orange-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
+                        {service.badge}
+                      </span>
+                    </div>
+                  )}
                   
-                  <div className="space-y-3">
-                    <h4 className="font-semibold text-gray-900">Key Features:</h4>
-                    {service.features.map((feature, featureIndex) => (
-                      <div key={featureIndex} className="flex items-center text-sm text-gray-600">
-                        <div className={`w-2 h-2 bg-${service.color}-500 rounded-full mr-3 flex-shrink-0`}></div>
-                        {feature}
-                      </div>
-                    ))}
-                  </div>
+                  <CardHeader className="text-center pb-4">
+                    <div className={`mx-auto mb-4 p-4 ${colorClasses.bg} rounded-full w-fit group-hover:scale-110 transition-transform duration-300`}>
+                      {service.icon}
+                    </div>
+                    <CardTitle className="text-2xl font-bold text-gray-900 mb-2">
+                      {service.title}
+                    </CardTitle>
+                  </CardHeader>
                   
-                  <div className="pt-4">
-                    <Link to={service.link}>
-                      <Button className="w-full group transition-all duration-300 hover:scale-105">
-                        Learn More
-                        <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
-                      </Button>
-                    </Link>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                  <CardContent className="space-y-6">
+                    <CardDescription className="text-gray-600 text-base leading-relaxed">
+                      {service.description}
+                    </CardDescription>
+                    
+                    <div className="space-y-3">
+                      <h4 className="font-semibold text-gray-900">Key Features:</h4>
+                      {service.features.map((feature, featureIndex) => (
+                        <div key={featureIndex} className="flex items-center text-sm text-gray-600">
+                          <div className={`w-2 h-2 ${colorClasses.bullet} rounded-full mr-3 flex-shrink-0`}></div>
+                          {feature}
+                        </div>
+                      ))}
+                    </div>
+                    
+                    <div className="pt-4">
+                      <Link to={service.link}>
+                        <Button className="w-full group transition-all duration-300 hover:scale-105">
+                          Learn More
+                          <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
+                        </Button>
+                      </Link>
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         </div>
       </section>
