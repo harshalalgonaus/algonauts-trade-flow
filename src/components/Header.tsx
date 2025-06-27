@@ -28,7 +28,7 @@ export const Header = () => {
               ['Founder\'s Vision', '/founders-vision'],
               ['Cash Management', '/cash-management'],
               ['F&O Management', '/fo-management'],
-              ['Algorithmic Trading', '#algorithmic-trading'],
+              ['Algorithmic Trading', '/algorithmic-trading'],
               ['Risk Management', '#risk-management'],
               ['Portfolio Analytics', '#portfolio-analytics'],
               ['Contact', '/contact-us']
@@ -101,9 +101,9 @@ export const Header = () => {
               <Link to="/fo-management" className="text-gray-700 hover:text-black transition-all duration-300 hover:translate-x-2">
                 F&O Management
               </Link>
-              <a href="#algorithmic-trading" className="text-gray-700 hover:text-black transition-all duration-300 hover:translate-x-2">
+              <Link to="/algorithmic-trading" className="text-gray-700 hover:text-black transition-all duration-300 hover:translate-x-2">
                 Algorithmic Trading
-              </a>
+              </Link>
               <a href="#risk-management" className="text-gray-700 hover:text-black transition-all duration-300 hover:translate-x-2">
                 Risk Management
               </a>
