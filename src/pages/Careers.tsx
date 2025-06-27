@@ -1,12 +1,20 @@
-
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Checkbox } from '@/components/ui/checkbox';
 import { MapPin, Clock, Users } from 'lucide-react';
+import { useState } from 'react';
 
 const Careers = () => {
+  const [selectedPosition, setSelectedPosition] = useState(null);
+
   const positions = [
     {
       id: 1,
@@ -93,6 +101,160 @@ const Careers = () => {
     }
   };
 
+  const ApplicationForm = ({ position }) => {
+    const [formData, setFormData] = useState({
+      fullName: '',
+      email: '',
+      phone: '',
+      experience: '',
+      currentCompany: '',
+      expectedSalary: '',
+      noticePeriod: '',
+      coverLetter: '',
+      resume: null,
+      agreedToTerms: false
+    });
+
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      console.log('Application submitted for:', position.title, formData);
+      // Handle form submission here
+    };
+
+    const handleInputChange = (field, value) => {
+      setFormData(prev => ({ ...prev, [field]: value }));
+    };
+
+    return (
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <Label htmlFor="fullName">Full Name *</Label>
+            <Input
+              id="fullName"
+              value={formData.fullName}
+              onChange={(e) => handleInputChange('fullName', e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <Label htmlFor="email">Email *</Label>
+            <Input
+              id="email"
+              type="email"
+              value={formData.email}
+              onChange={(e) => handleInputChange('email', e.target.value)}
+              required
+            />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <Label htmlFor="phone">Phone Number *</Label>
+            <Input
+              id="phone"
+              value={formData.phone}
+              onChange={(e) => handleInputChange('phone', e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <Label htmlFor="experience">Total Experience</Label>
+            <Select onValueChange={(value) => handleInputChange('experience', value)}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select experience" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="0-1">0-1 years</SelectItem>
+                <SelectItem value="1-3">1-3 years</SelectItem>
+                <SelectItem value="3-5">3-5 years</SelectItem>
+                <SelectItem value="5-8">5-8 years</SelectItem>
+                <SelectItem value="8+">8+ years</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <Label htmlFor="currentCompany">Current Company</Label>
+            <Input
+              id="currentCompany"
+              value={formData.currentCompany}
+              onChange={(e) => handleInputChange('currentCompany', e.target.value)}
+            />
+          </div>
+          <div>
+            <Label htmlFor="expectedSalary">Expected Salary (LPA)</Label>
+            <Input
+              id="expectedSalary"
+              value={formData.expectedSalary}
+              onChange={(e) => handleInputChange('expectedSalary', e.target.value)}
+            />
+          </div>
+        </div>
+
+        <div>
+          <Label htmlFor="noticePeriod">Notice Period</Label>
+          <Select onValueChange={(value) => handleInputChange('noticePeriod', value)}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select notice period" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="immediate">Immediate</SelectItem>
+              <SelectItem value="15-days">15 days</SelectItem>
+              <SelectItem value="1-month">1 month</SelectItem>
+              <SelectItem value="2-months">2 months</SelectItem>
+              <SelectItem value="3-months">3 months</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div>
+          <Label htmlFor="resume">Resume/CV *</Label>
+          <Input
+            id="resume"
+            type="file"
+            accept=".pdf,.doc,.docx"
+            onChange={(e) => handleInputChange('resume', e.target.files[0])}
+            required
+          />
+        </div>
+
+        <div>
+          <Label htmlFor="coverLetter">Cover Letter</Label>
+          <Textarea
+            id="coverLetter"
+            placeholder="Tell us why you're interested in this position..."
+            value={formData.coverLetter}
+            onChange={(e) => handleInputChange('coverLetter', e.target.value)}
+            rows={4}
+          />
+        </div>
+
+        <div className="flex items-center space-x-2">
+          <Checkbox
+            id="terms"
+            checked={formData.agreedToTerms}
+            onCheckedChange={(checked) => handleInputChange('agreedToTerms', checked)}
+          />
+          <Label htmlFor="terms" className="text-sm">
+            I agree to the terms and conditions and privacy policy *
+          </Label>
+        </div>
+
+        <Button
+          type="submit"
+          className="w-full bg-black text-white hover:bg-gray-800"
+          disabled={!formData.agreedToTerms}
+        >
+          Submit Application
+        </Button>
+      </form>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <Header />
@@ -161,9 +323,25 @@ const Careers = () => {
                     </ul>
                   </div>
 
-                  <Button className="w-full bg-black text-white hover:bg-gray-800">
-                    Apply Now
-                  </Button>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button 
+                        className="w-full bg-black text-white hover:bg-gray-800"
+                        onClick={() => setSelectedPosition(position)}
+                      >
+                        Apply Now
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+                      <DialogHeader>
+                        <DialogTitle>Apply for {position.title}</DialogTitle>
+                        <DialogDescription>
+                          {position.department} • {position.location} • {position.type}
+                        </DialogDescription>
+                      </DialogHeader>
+                      <ApplicationForm position={position} />
+                    </DialogContent>
+                  </Dialog>
                 </CardContent>
               </Card>
             ))}
