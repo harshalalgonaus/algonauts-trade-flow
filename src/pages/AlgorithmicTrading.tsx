@@ -120,12 +120,14 @@ const AlgorithmicTrading = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link to="/open-account">
             <Button className="bg-white text-black hover:bg-gray-100 px-8 py-3 text-lg group transition-all duration-300 hover:scale-105">
               Start AI Trading
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
             </Button>
+            </Link>
             <Link to="/contact-us">
-              <Button variant="outline" className="border-white text-white hover:bg-white hover:text-black px-8 py-3 text-lg transition-all duration-300 hover:scale-105">
+              <Button className="bg-white text-black hover:bg-gray-100 px-8 py-3 text-lg group transition-all duration-300 hover:scale-105">
                 Learn More
               </Button>
             </Link>
@@ -302,7 +304,7 @@ const AlgorithmicTrading = () => {
               </Button>
             </Link>
             <Link to="/contact-us">
-              <Button variant="outline" className="border-white text-white hover:bg-white hover:text-black px-8 py-3 text-lg transition-all duration-300 hover:scale-105">
+              <Button className="bg-white text-black hover:bg-gray-100 px-8 py-3 text-lg group transition-all duration-300 hover:scale-105">
                 Schedule Demo
               </Button>
             </Link>
