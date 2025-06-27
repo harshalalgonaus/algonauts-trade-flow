@@ -30,7 +30,7 @@ export const Header = () => {
               ['F&O Management', '/fo-management'],
               ['Algorithmic Trading', '/algorithmic-trading'],
               ['Risk Management', '#risk-management'],
-              ['Portfolio Analytics', '#portfolio-analytics'],
+              ['AI Research', '/ai-research'],
               ['Contact', '/contact-us']
             ].map(([name, link]) => (
               <Link
@@ -107,9 +107,9 @@ export const Header = () => {
               <a href="#risk-management" className="text-gray-700 hover:text-black transition-all duration-300 hover:translate-x-2">
                 Risk Management
               </a>
-              <a href="#portfolio-analytics" className="text-gray-700 hover:text-black transition-all duration-300 hover:translate-x-2">
-                Portfolio Analytics
-              </a>
+              <Link to="/ai-research" className="text-gray-700 hover:text-black transition-all duration-300 hover:translate-x-2">
+                AI Research
+              </Link>
               <a href="#technology" className="text-gray-700 hover:text-black transition-all duration-300 hover:translate-x-2">
                 Technology
               </a>

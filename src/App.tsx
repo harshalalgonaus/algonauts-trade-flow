@@ -16,6 +16,7 @@ import Careers from "./pages/Careers";
 import AboutUs from "./pages/AboutUs";
 import JobApplication from "./pages/JobApplication";
 import AlgorithmicTrading from "./pages/AlgorithmicTrading";
+import AIResearch from "./pages/AIResearch";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +34,7 @@ const App = () => (
           <Route path="/cash-management" element={<CashManagement />} />
           <Route path="/fo-management" element={<FOManagement />} />
           <Route path="/algorithmic-trading" element={<AlgorithmicTrading />} />
+          <Route path="/ai-research" element={<AIResearch />} />
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/careers" element={<Careers />} />
           <Route path="/about-us" element={<AboutUs />} />
