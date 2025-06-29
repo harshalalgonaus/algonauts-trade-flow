@@ -36,10 +36,12 @@ export const Hero = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 opacity-0 animate-[fade-in_0.8s_ease-out_0.8s_forwards]">
+              <Link to="/services">
               <Button className="bg-white text-black hover:bg-gray-100 px-8 py-3 text-lg group transition-all duration-300 hover:scale-105 hover:shadow-lg">
                 Learn More
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
               </Button>
+              </Link>
               <Link to="/view-strategies">
                 <Button className="bg-white text-black hover:bg-gray-100 px-8 py-3 text-lg group transition-all duration-300 hover:scale-105 hover:shadow-lg">
                   View Strategies

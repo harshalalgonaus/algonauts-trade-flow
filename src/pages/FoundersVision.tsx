@@ -44,7 +44,7 @@ const FoundersVision = () => {
                   <h3 className="text-2xl font-bold text-black">Foundation Years</h3>
                 </div>
                 <p className="text-gray-700 leading-relaxed mb-4">
-                  To manage equity cash and FNO portfolios through automated systems to generate wealth 
+                  To manage equity cash and F&O portfolios through automated systems to generate wealth 
                   and control risk without human intervention at any stage.
                 </p>
                 <div className="bg-white p-4 rounded-lg border-l-4 border-gray-600">
