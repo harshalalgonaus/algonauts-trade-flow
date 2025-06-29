@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -29,20 +28,13 @@ export const Header = () => {
               ['Cash Management', '/cash-management'],
               ['F&O Management', '/fo-management'],
               ['Algorithmic Trading', '/algorithmic-trading'],
-              ['Risk Management', '#risk-management'],
+              ['Risk Management', '/risk-management'],
               ['AI Research', '/ai-research'],
               ['Contact', '/contact-us']
             ].map(([name, link]) => (
               <Link
                 key={link}
-                to={link.startsWith('#') ? '/' : link}
-                onClick={link.startsWith('#') ? (e) => {
-                  e.preventDefault();
-                  const element = document.querySelector(link);
-                  if (element) {
-                    element.scrollIntoView({ behavior: 'smooth' });
-                  }
-                } : undefined}
+                to={link}
                 className="text-gray-700 hover:text-black text-sm transition-all duration-300 hover:scale-105 relative group text-center block"
               >
                 {name}
@@ -104,9 +96,9 @@ export const Header = () => {
               <Link to="/algorithmic-trading" className="text-gray-700 hover:text-black transition-all duration-300 hover:translate-x-2">
                 Algorithmic Trading
               </Link>
-              <a href="#risk-management" className="text-gray-700 hover:text-black transition-all duration-300 hover:translate-x-2">
+              <Link to="/risk-management" className="text-gray-700 hover:text-black transition-all duration-300 hover:translate-x-2">
                 Risk Management
-              </a>
+              </Link>
               <Link to="/ai-research" className="text-gray-700 hover:text-black transition-all duration-300 hover:translate-x-2">
                 AI Research
               </Link>

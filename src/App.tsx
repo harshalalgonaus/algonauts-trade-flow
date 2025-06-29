@@ -19,6 +19,7 @@ import AlgorithmicTrading from "./pages/AlgorithmicTrading";
 import AIResearch from "./pages/AIResearch";
 import Services from "./pages/Services";
 import ViewStrategies from "./pages/ViewStrategies";
+import RiskManagement from "./pages/RiskManagement";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +40,7 @@ const App = () => (
           <Route path="/ai-research" element={<AIResearch />} />
           <Route path="/services" element={<Services />} />
           <Route path="/view-strategies" element={<ViewStrategies />} />
+          <Route path="/risk-management" element={<RiskManagement />} />
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/careers" element={<Careers />} />
           <Route path="/about-us" element={<AboutUs />} />
