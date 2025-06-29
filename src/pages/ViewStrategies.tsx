@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
@@ -8,6 +9,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
 import { TrendingUp, Target, ArrowRight, BarChart3, PieChart as PieChartIcon, Database } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import NiftyPortfolioChart from '@/components/NiftyPortfolioChart';
 
 const ViewStrategies = () => {
   const [activeFilter, setActiveFilter] = useState('all');
@@ -350,6 +352,11 @@ const ViewStrategies = () => {
             <p className="text-xl text-gray-600 text-center max-w-3xl mx-auto mb-12">
               Advanced F&O trading system with diversified portfolios, real-time signal management, and automated execution.
             </p>
+
+            {/* Nifty Portfolio Chart */}
+            <div className="mb-12">
+              <NiftyPortfolioChart />
+            </div>
 
             <div className="grid lg:grid-cols-2 gap-12">
               {/* F&O Performance Chart */}
