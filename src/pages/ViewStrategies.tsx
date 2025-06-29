@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
@@ -63,7 +62,7 @@ const ViewStrategies = () => {
   ];
 
   // Filter functions
-  const filterStocks = (filterType) => {
+  const filterStocks = (filterType: string) => {
     switch (filterType) {
       case 'all':
         return portfolioStocks;
@@ -77,7 +76,7 @@ const ViewStrategies = () => {
         return portfolioStocks.filter(stock => {
           const stockDate = new Date(stock.date.split('-').reverse().join('-'));
           const currentDate = new Date();
-          const daysDiff = (currentDate - stockDate) / (1000 * 60 * 60 * 24);
+          const daysDiff = (currentDate.getTime() - stockDate.getTime()) / (1000 * 60 * 60 * 24);
           return daysDiff <= 14; // Last 14 days
         });
       default:
