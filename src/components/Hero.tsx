@@ -1,6 +1,7 @@
 
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export const Hero = () => {
   return (
@@ -39,9 +40,11 @@ export const Hero = () => {
                 Learn More
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
               </Button>
-              <Button className="bg-white text-black hover:bg-gray-100 px-8 py-3 text-lg group transition-all duration-300 hover:scale-105 hover:shadow-lg">
-                View Strategies
-              </Button>
+              <Link to="/view-strategies">
+                <Button className="bg-white text-black hover:bg-gray-100 px-8 py-3 text-lg group transition-all duration-300 hover:scale-105 hover:shadow-lg">
+                  View Strategies
+                </Button>
+              </Link>
             </div>
           </div>
 

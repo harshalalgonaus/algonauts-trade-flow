@@ -4,8 +4,9 @@ import { Footer } from '@/components/Footer';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
-import { TrendingUp, Target, ArrowRight, BarChart3, PieChart as PieChartIcon } from 'lucide-react';
+import { TrendingUp, Target, ArrowRight, BarChart3, PieChart as PieChartIcon, Database } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const ViewStrategies = () => {
@@ -35,6 +36,18 @@ const ViewStrategies = () => {
     { name: 'Mid Cap', value: 30, color: '#00C49F' },
     { name: 'Small Cap', value: 20, color: '#FFBB28' },
     { name: 'Cash', value: 10, color: '#FF8042' },
+  ];
+
+  // Real portfolio data from the client's cash management strategy
+  const portfolioStocks = [
+    { date: '09-05-2025', stock: 'SHIPISTON', marketCap: 10597, entryPrice: 2100, currentPrice: 2486, dayChange: 3.39, investment: 40000, quantity: 19, investmentValue: 39900, marketValue: 47217, profitLoss: 7317, returnPct: 18.34 },
+    { date: '09-05-2025', stock: 'PRIMLIL', marketCap: 9035, entryPrice: 1150, currentPrice: 1142, dayChange: 2.24, investment: 40000, quantity: 34, investmentValue: 39100, marketValue: 38828, profitLoss: -272, returnPct: -0.70 },
+    { date: '16-05-2025', stock: 'J&KBANK', marketCap: 12280, entryPrice: 104.51, currentPrice: 111.8, dayChange: 3.26, investment: 80000, quantity: 765, investmentValue: 79950, marketValue: 85527, profitLoss: 5577, returnPct: 6.98 },
+    { date: '16-05-2025', stock: 'MOLDTKPAC', marketCap: 2267, entryPrice: 571.58, currentPrice: 682.1, dayChange: -0.97, investment: 80000, quantity: 139, investmentValue: 79450, marketValue: 94812, profitLoss: 15362, returnPct: 19.34 },
+    { date: '23-05-2025', stock: 'MOREPENLAB', marketCap: 3444, entryPrice: 66.87, currentPrice: 62.86, dayChange: 0.88, investment: 80000, quantity: 1196, investmentValue: 79977, marketValue: 75181, profitLoss: -4796, returnPct: -6.00 },
+    { date: '23-05-2025', stock: 'CCL', marketCap: 11377, entryPrice: 799.5, currentPrice: 852, dayChange: 1.72, investment: 80000, quantity: 100, investmentValue: 79950, marketValue: 85200, profitLoss: 5250, returnPct: 6.57 },
+    { date: '30-05-2025', stock: 'SURYODAY', marketCap: 1481, entryPrice: 135.6, currentPrice: 139.07, dayChange: 1.30, investment: 80000, quantity: 589, investmentValue: 79868, marketValue: 81912, profitLoss: 2044, returnPct: 2.56 },
+    { date: '30-05-2025', stock: 'ENDURANCE', marketCap: 37141, entryPrice: 2454.98, currentPrice: 2630.6, dayChange: 0.00, investment: 80000, quantity: 32, investmentValue: 78559, marketValue: 84179, profitLoss: 5620, returnPct: 7.15 },
   ];
 
   const chartConfig = {
@@ -132,7 +145,7 @@ const ViewStrategies = () => {
               Our automated equity trading system delivers consistent returns through intelligent portfolio curation and market phase detection.
             </p>
 
-            <div className="grid lg:grid-cols-2 gap-12">
+            <div className="grid lg:grid-cols-2 gap-12 mb-16">
               {/* Performance Chart */}
               <Card>
                 <CardHeader>
@@ -188,8 +201,87 @@ const ViewStrategies = () => {
               </Card>
             </div>
 
+            {/* Live Portfolio Holdings */}
+            <Card className="mb-12">
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Database className="h-5 w-5 mr-2 text-purple-600" />
+                  Current Portfolio Holdings - Cash Management Strategy
+                </CardTitle>
+                <CardDescription>
+                  Real-time data of stocks selected by our algorithm for client portfolios
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Date</TableHead>
+                        <TableHead>Stock</TableHead>
+                        <TableHead>Market Cap</TableHead>
+                        <TableHead>Entry Price</TableHead>
+                        <TableHead>Current Price</TableHead>
+                        <TableHead>Day % Change</TableHead>
+                        <TableHead>Investment</TableHead>
+                        <TableHead>Quantity</TableHead>
+                        <TableHead>Investment Value</TableHead>
+                        <TableHead>Market Value</TableHead>
+                        <TableHead>Profit/Loss</TableHead>
+                        <TableHead>Return (%)</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {portfolioStocks.map((stock, index) => (
+                        <TableRow key={index}>
+                          <TableCell className="font-medium">{stock.date}</TableCell>
+                          <TableCell className="font-semibold text-blue-600">{stock.stock}</TableCell>
+                          <TableCell>{stock.marketCap.toLocaleString()}</TableCell>
+                          <TableCell>₹{stock.entryPrice}</TableCell>
+                          <TableCell>₹{stock.currentPrice}</TableCell>
+                          <TableCell className={stock.dayChange >= 0 ? 'text-green-600' : 'text-red-600'}>
+                            {stock.dayChange >= 0 ? '+' : ''}{stock.dayChange}%
+                          </TableCell>
+                          <TableCell>₹{stock.investment.toLocaleString()}</TableCell>
+                          <TableCell>{stock.quantity}</TableCell>
+                          <TableCell>₹{stock.investmentValue.toLocaleString()}</TableCell>
+                          <TableCell>₹{stock.marketValue.toLocaleString()}</TableCell>
+                          <TableCell className={stock.profitLoss >= 0 ? 'text-green-600 font-semibold' : 'text-red-600 font-semibold'}>
+                            {stock.profitLoss >= 0 ? '+' : ''}₹{stock.profitLoss.toLocaleString()}
+                          </TableCell>
+                          <TableCell className={stock.returnPct >= 0 ? 'text-green-600 font-bold' : 'text-red-600 font-bold'}>
+                            {stock.returnPct >= 0 ? '+' : ''}{stock.returnPct}%
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+                <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
+                    <div>
+                      <p className="text-sm text-gray-600">Total Investment</p>
+                      <p className="text-2xl font-bold text-blue-600">₹6,36,254</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-600">Current Value</p>
+                      <p className="text-2xl font-bold text-green-600">₹6,60,856</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-600">Total P&L</p>
+                      <p className="text-2xl font-bold text-green-600">+₹24,602</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-600">Overall Return</p>
+                      <p className="text-2xl font-bold text-green-600">+3.87%</p>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
             {/* Key Features */}
-            <div className="mt-12 grid md:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-3 gap-6">
               <Card className="text-center">
                 <CardHeader>
                   <CardTitle className="text-lg">Price Action Curator</CardTitle>
