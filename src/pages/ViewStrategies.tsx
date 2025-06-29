@@ -1,4 +1,4 @@
-
+import { useState } from 'react';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -10,6 +10,8 @@ import { TrendingUp, Target, ArrowRight, BarChart3, PieChart as PieChartIcon, Da
 import { Link } from 'react-router-dom';
 
 const ViewStrategies = () => {
+  const [activeFilter, setActiveFilter] = useState('all');
+
   // Sample data for cash management performance
   const cashManagementData = [
     { month: 'Jan', returns: 8.5, benchmark: 6.2 },
@@ -40,15 +42,48 @@ const ViewStrategies = () => {
 
   // Real portfolio data from the client's cash management strategy
   const portfolioStocks = [
-    { date: '09-05-2025', stock: 'SHIPISTON', marketCap: 10597, entryPrice: 2100, currentPrice: 2486, dayChange: 3.39, investment: 40000, quantity: 19, investmentValue: 39900, marketValue: 47217, profitLoss: 7317, returnPct: 18.34 },
-    { date: '09-05-2025', stock: 'PRIMLIL', marketCap: 9035, entryPrice: 1150, currentPrice: 1142, dayChange: 2.24, investment: 40000, quantity: 34, investmentValue: 39100, marketValue: 38828, profitLoss: -272, returnPct: -0.70 },
+    { date: '09-05-2025', stock: 'SHRIPISTON', marketCap: 10897, entryPrice: 2100, currentPrice: 2485.1, dayChange: 3.39, investment: 40000, quantity: 19, investmentValue: 39900, marketValue: 47217, profitLoss: 7317, returnPct: 18.34 },
+    { date: '09-05-2025', stock: 'KPRMILL', marketCap: 39035, entryPrice: 1150, currentPrice: 1142, dayChange: 2.24, investment: 40000, quantity: 34, investmentValue: 39100, marketValue: 38828, profitLoss: -272, returnPct: -0.70 },
     { date: '16-05-2025', stock: 'J&KBANK', marketCap: 12280, entryPrice: 104.51, currentPrice: 111.8, dayChange: 3.26, investment: 80000, quantity: 765, investmentValue: 79950, marketValue: 85527, profitLoss: 5577, returnPct: 6.98 },
     { date: '16-05-2025', stock: 'MOLDTKPAC', marketCap: 2267, entryPrice: 571.58, currentPrice: 682.1, dayChange: -0.97, investment: 80000, quantity: 139, investmentValue: 79450, marketValue: 94812, profitLoss: 15362, returnPct: 19.34 },
     { date: '23-05-2025', stock: 'MOREPENLAB', marketCap: 3444, entryPrice: 66.87, currentPrice: 62.86, dayChange: 0.88, investment: 80000, quantity: 1196, investmentValue: 79977, marketValue: 75181, profitLoss: -4796, returnPct: -6.00 },
     { date: '23-05-2025', stock: 'CCL', marketCap: 11377, entryPrice: 799.5, currentPrice: 852, dayChange: 1.72, investment: 80000, quantity: 100, investmentValue: 79950, marketValue: 85200, profitLoss: 5250, returnPct: 6.57 },
     { date: '30-05-2025', stock: 'SURYODAY', marketCap: 1481, entryPrice: 135.6, currentPrice: 139.07, dayChange: 1.30, investment: 80000, quantity: 589, investmentValue: 79868, marketValue: 81912, profitLoss: 2044, returnPct: 2.56 },
     { date: '30-05-2025', stock: 'ENDURANCE', marketCap: 37141, entryPrice: 2454.98, currentPrice: 2630.6, dayChange: 0.00, investment: 80000, quantity: 32, investmentValue: 78559, marketValue: 84179, profitLoss: 5620, returnPct: 7.15 },
+    { date: '06-06-2025', stock: 'LTFOODS', marketCap: 16781, entryPrice: 470.85, currentPrice: 485, dayChange: 9.88, investment: 80000, quantity: 169, investmentValue: 79574, marketValue: 81965, profitLoss: 2391, returnPct: 3.01 },
+    { date: '06-06-2025', stock: 'DODLA', marketCap: 8757, entryPrice: 1335.28, currentPrice: 1449.6, dayChange: 0.25, investment: 80000, quantity: 59, investmentValue: 78782, marketValue: 85526, profitLoss: 6745, returnPct: 8.56 },
+    { date: '13-06-2025', stock: 'ABREL', marketCap: 26681, entryPrice: 2499, currentPrice: 2414, dayChange: 3.41, investment: 80000, quantity: 32, investmentValue: 79968, marketValue: 77248, profitLoss: -2720, returnPct: -3.40 },
+    { date: '13-06-2025', stock: 'MANAPPURAM', marketCap: 23409, entryPrice: 283.35, currentPrice: 275, dayChange: 0.33, investment: 80000, quantity: 282, investmentValue: 79905, marketValue: 77550, profitLoss: -2355, returnPct: -2.95 },
+    { date: '20-06-2025', stock: 'FORCEMOT', marketCap: 19089, entryPrice: 14249, currentPrice: 14525, dayChange: 2.92, investment: 80000, quantity: 5, investmentValue: 71245, marketValue: 72625, profitLoss: 1380, returnPct: 1.94 },
+    { date: '20-06-2025', stock: 'EMIL', marketCap: 5694, entryPrice: 146.91, currentPrice: 147.98, dayChange: -0.26, investment: 80000, quantity: 544, investmentValue: 79919, marketValue: 80501, profitLoss: 582, returnPct: 0.73 },
+    { date: '27-06-2025', stock: 'ITDCEM', marketCap: 15297, entryPrice: 887.7, currentPrice: 886.3, dayChange: 0.94, investment: 80000, quantity: 90, investmentValue: 79893, marketValue: 79767, profitLoss: -126, returnPct: -0.16 },
+    { date: '27-06-2025', stock: 'USHAMART', marketCap: 10828, entryPrice: 358.1, currentPrice: 356.05, dayChange: 2.96, investment: 80000, quantity: 223, investmentValue: 79856, marketValue: 79399, profitLoss: -457, returnPct: -0.57 },
   ];
+
+  // Filter functions
+  const filterStocks = (filterType) => {
+    switch (filterType) {
+      case 'all':
+        return portfolioStocks;
+      case 'profitable':
+        return portfolioStocks.filter(stock => stock.profitLoss > 0);
+      case 'top-performers':
+        return portfolioStocks
+          .filter(stock => stock.returnPct >= 10)
+          .sort((a, b) => b.returnPct - a.returnPct);
+      case 'recent':
+        return portfolioStocks.filter(stock => {
+          const stockDate = new Date(stock.date.split('-').reverse().join('-'));
+          const currentDate = new Date();
+          const daysDiff = (currentDate - stockDate) / (1000 * 60 * 60 * 24);
+          return daysDiff <= 14; // Last 14 days
+        });
+      default:
+        return portfolioStocks;
+    }
+  };
+
+  const filteredStocks = filterStocks(activeFilter);
 
   const chartConfig = {
     returns: {
@@ -145,74 +180,69 @@ const ViewStrategies = () => {
               Our automated equity trading system delivers consistent returns through intelligent portfolio curation and market phase detection.
             </p>
 
-            <div className="grid lg:grid-cols-2 gap-12 mb-16">
-              {/* Performance Chart */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center">
-                    <BarChart3 className="h-5 w-5 mr-2 text-blue-600" />
-                    Monthly Performance vs Benchmark
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ChartContainer config={chartConfig} className="h-[300px]">
-                    <LineChart data={cashManagementData}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="month" />
-                      <YAxis />
-                      <ChartTooltip content={<ChartTooltipContent />} />
-                      <Line type="monotone" dataKey="returns" stroke="var(--color-returns)" strokeWidth={3} />
-                      <Line type="monotone" dataKey="benchmark" stroke="var(--color-benchmark)" strokeWidth={2} strokeDasharray="5 5" />
-                    </LineChart>
-                  </ChartContainer>
-                </CardContent>
-              </Card>
 
-              {/* Portfolio Allocation */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center">
-                    <PieChartIcon className="h-5 w-5 mr-2 text-green-600" />
-                    Portfolio Allocation
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="h-[300px] flex items-center justify-center">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <PieChart>
-                        <Pie
-                          data={portfolioAllocation}
-                          cx="50%"
-                          cy="50%"
-                          outerRadius={80}
-                          fill="#8884d8"
-                          dataKey="value"
-                          label={({ name, value }) => `${name}: ${value}%`}
-                        >
-                          {portfolioAllocation.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={entry.color} />
-                          ))}
-                        </Pie>
-                        <ChartTooltip />
-                      </PieChart>
-                    </ResponsiveContainer>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Live Portfolio Holdings */}
+            {/* Live Portfolio Holdings with Filters */}
             <Card className="mb-12">
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Database className="h-5 w-5 mr-2 text-purple-600" />
-                  Current Portfolio Holdings - Cash Management Strategy
+                  Current Portfolio Holdings
                 </CardTitle>
                 <CardDescription>
-                  Real-time data of stocks selected by our algorithm for client portfolios
+                  Real-time performance of our AI-selected stocks
                 </CardDescription>
               </CardHeader>
               <CardContent>
+                {/* Filter Buttons */}
+                <div className="mb-6">
+                  <div className="flex flex-wrap gap-2">
+                    <Button
+                      variant={activeFilter === 'all' ? 'default' : 'outline'}
+                      onClick={() => setActiveFilter('all')}
+                      className={`${
+                        activeFilter === 'all'
+                          ? 'bg-blue-600 text-white hover:bg-blue-700'
+                          : 'border-gray-300 text-gray-700 hover:bg-gray-50'
+                      } transition-all duration-200`}
+                    >
+                      All Stocks
+                    </Button>
+                    <Button
+                      variant={activeFilter === 'profitable' ? 'default' : 'outline'}
+                      onClick={() => setActiveFilter('profitable')}
+                      className={`${
+                        activeFilter === 'profitable'
+                          ? 'bg-green-600 text-white hover:bg-green-700'
+                          : 'border-gray-300 text-gray-700 hover:bg-gray-50'
+                      } transition-all duration-200`}
+                    >
+                      Profitable
+                    </Button>
+                    <Button
+                      variant={activeFilter === 'top-performers' ? 'default' : 'outline'}
+                      onClick={() => setActiveFilter('top-performers')}
+                      className={`${
+                        activeFilter === 'top-performers'
+                          ? 'bg-purple-600 text-white hover:bg-purple-700'
+                          : 'border-gray-300 text-gray-700 hover:bg-gray-50'
+                      } transition-all duration-200`}
+                    >
+                      Top Performers
+                    </Button>
+                    <Button
+                      variant={activeFilter === 'recent' ? 'default' : 'outline'}
+                      onClick={() => setActiveFilter('recent')}
+                      className={`${
+                        activeFilter === 'recent'
+                          ? 'bg-orange-600 text-white hover:bg-orange-700'
+                          : 'border-gray-300 text-gray-700 hover:bg-gray-50'
+                      } transition-all duration-200`}
+                    >
+                      Recent Picks
+                    </Button>
+                  </div>
+                </div>
+
                 <div className="overflow-x-auto">
                   <Table>
                     <TableHeader>
@@ -232,7 +262,7 @@ const ViewStrategies = () => {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {portfolioStocks.map((stock, index) => (
+                      {filteredStocks.map((stock, index) => (
                         <TableRow key={index}>
                           <TableCell className="font-medium">{stock.date}</TableCell>
                           <TableCell className="font-semibold text-blue-600">{stock.stock}</TableCell>
@@ -257,19 +287,21 @@ const ViewStrategies = () => {
                     </TableBody>
                   </Table>
                 </div>
+                
+                {/* Portfolio Summary */}
                 <div className="mt-6 p-4 bg-gray-50 rounded-lg">
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
                     <div>
                       <p className="text-sm text-gray-600">Total Investment</p>
-                      <p className="text-2xl font-bold text-blue-600">₹6,36,254</p>
+                      <p className="text-2xl font-bold text-blue-600">₹11,85,896</p>
                     </div>
                     <div>
                       <p className="text-sm text-gray-600">Current Value</p>
-                      <p className="text-2xl font-bold text-green-600">₹6,60,856</p>
+                      <p className="text-2xl font-bold text-green-600">₹12,27,437</p>
                     </div>
                     <div>
                       <p className="text-sm text-gray-600">Total P&L</p>
-                      <p className="text-2xl font-bold text-green-600">+₹24,602</p>
+                      <p className="text-2xl font-bold text-green-600">+₹41,542</p>
                     </div>
                     <div>
                       <p className="text-sm text-gray-600">Overall Return</p>
