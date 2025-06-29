@@ -364,60 +364,7 @@ const ViewStrategies = () => {
             </div>
 
             {/* F&O Performance Chart */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <BarChart3 className="h-5 w-5 mr-2 text-purple-600" />
-                  Monthly Profit/Loss Analysis
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ChartContainer config={chartConfig} className="h-[300px]">
-                  <BarChart data={foManagementData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="month" />
-                    <YAxis />
-                    <ChartTooltip content={<ChartTooltipContent />} />
-                    <Bar dataKey="profit" fill="var(--color-profit)" />
-                    <Bar dataKey="loss" fill="var(--color-loss)" />
-                  </BarChart>
-                </ChartContainer>
-              </CardContent>
-            </Card>
-
-            {/* Risk Metrics */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Risk Management Metrics</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Maximum Drawdown</span>
-                  <span className="font-semibold text-red-600">-4.3%</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Win Rate</span>
-                  <span className="font-semibold text-green-600">78.5%</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Risk-Reward Ratio</span>
-                  <span className="font-semibold text-blue-600">1:2.8</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Average Trade Duration</span>
-                  <span className="font-semibold">2.3 days</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Volatility</span>
-                  <span className="font-semibold">12.4%</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Beta</span>
-                  <span className="font-semibold">0.87</span>
-                </div>
-              </CardContent>
-            </Card>
-
+            
             {/* F&O Key Features */}
             <div className="mt-12 grid md:grid-cols-4 gap-6">
               <Card className="text-center">

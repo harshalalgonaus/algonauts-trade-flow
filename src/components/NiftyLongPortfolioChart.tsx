@@ -99,11 +99,11 @@ const NiftyLongPortfolioChart = () => {
     if (index === maxIndex) {
       return (
         <g>
-          <circle cx={cx} cy={cy} r={7} fill="#dc2626" stroke="#fff" strokeWidth={2} />
-          <text x={cx} y={cy - 20} textAnchor="middle" fontSize="11" fill="#dc2626" fontWeight="bold">
+          <circle cx={cx} cy={cy} r={7} fill="#16a34a" stroke="#fff" strokeWidth={2} />
+          <text x={cx} y={cy - 20} textAnchor="middle" fontSize="11" fill="#16a34a" fontWeight="bold">
             PEAK
           </text>
-          <text x={cx} y={cy - 8} textAnchor="middle" fontSize="9" fill="#dc2626">
+          <text x={cx} y={cy - 8} textAnchor="middle" fontSize="9" fill="#16a34a">
             ₹8.42L
           </text>
         </g>
@@ -112,11 +112,11 @@ const NiftyLongPortfolioChart = () => {
     if (index === minIndex) {
       return (
         <g>
-          <circle cx={cx} cy={cy} r={7} fill="#16a34a" stroke="#fff" strokeWidth={2} />
-          <text x={cx} y={cy + 25} textAnchor="middle" fontSize="11" fill="#16a34a" fontWeight="bold">
+          <circle cx={cx} cy={cy} r={7} fill="#dc2626" stroke="#fff" strokeWidth={2} />
+          <text x={cx+12} y={cy - 20} textAnchor="middle" fontSize="11" fill="#dc2626" fontWeight="bold">
             LOWEST DIP
           </text>
-          <text x={cx} y={cy + 37} textAnchor="middle" fontSize="9" fill="#16a34a">
+          <text x={cx+20} y={cy - 8} textAnchor="middle" fontSize="9" fill="#dc2626">
             ₹1.57L
           </text>
         </g>

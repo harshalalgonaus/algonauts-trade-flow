@@ -64,8 +64,8 @@ const NiftyPortfolioChart = () => {
     if (index === maxIndex) {
       return (
         <g>
-          <circle cx={cx} cy={cy} r={6} fill="#dc2626" stroke="#fff" strokeWidth={2} />
-          <text x={cx} y={cy - 15} textAnchor="middle" fontSize="10" fill="#dc2626" fontWeight="bold">
+          <circle cx={cx} cy={cy} r={6} fill="#16a34a" stroke="#fff" strokeWidth={2} />
+          <text x={cx} y={cy - 15} textAnchor="middle" fontSize="10" fill="#16a34a" fontWeight="bold">
             PEAK
           </text>
         </g>
@@ -74,8 +74,8 @@ const NiftyPortfolioChart = () => {
     if (index === minIndex) {
       return (
         <g>
-          <circle cx={cx} cy={cy} r={6} fill="#16a34a" stroke="#fff" strokeWidth={2} />
-          <text x={cx} y={cy + 25} textAnchor="middle" fontSize="10" fill="#16a34a" fontWeight="bold">
+          <circle cx={cx} cy={cy} r={6} fill="#dc2626" stroke="#fff" strokeWidth={2} />
+          <text x={cx} y={cy - 25} textAnchor="middle" fontSize="10" fill="#dc2626" fontWeight="bold">
             DIP
           </text>
         </g>
