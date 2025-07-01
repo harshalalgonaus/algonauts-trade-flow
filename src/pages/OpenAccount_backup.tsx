@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
@@ -6,8 +7,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 
 const OpenAccount = () => {
   const [formData, setFormData] = useState({
@@ -21,11 +20,7 @@ const OpenAccount = () => {
     investmentGoals: ''
   });
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null);
-  const [registrationId, setRegistrationId] = useState(null);
-
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -33,45 +28,10 @@ const OpenAccount = () => {
     }));
   };
 
-  const handleSubmit = async () => {
-    setIsLoading(true);
-    setSubmitStatus(null);
-
-    try {
-      const response = await fetch('http://localhost:8000/api/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const result = await response.json();
-
-      if (response.ok && result.success) {
-        setSubmitStatus('success');
-        setRegistrationId(result.registration_id);
-        // Reset form
-        setFormData({
-          firstName: '',
-          lastName: '',
-          email: '',
-          phone: '',
-          investmentExperience: '',
-          riskTolerance: '',
-          initialInvestment: '',
-          investmentGoals: ''
-        });
-      } else {
-        setSubmitStatus('error');
-        console.error('Registration failed:', result);
-      }
-    } catch (error) {
-      setSubmitStatus('error');
-      console.error('Error submitting form:', error);
-    } finally {
-      setIsLoading(false);
-    }
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log('Form submitted:', formData);
+    // Handle form submission here
   };
 
   return (
@@ -87,25 +47,6 @@ const OpenAccount = () => {
           </p>
         </div>
 
-        {submitStatus === 'success' && (
-          <Alert className="max-w-2xl mx-auto mb-6 border-green-200 bg-green-50">
-            <CheckCircle className="h-4 w-4 text-green-600" />
-            <AlertDescription className="text-green-800">
-              Registration submitted successfully! Your registration ID is #{registrationId}. 
-              Our team will review your application and contact you within 24-48 hours.
-            </AlertDescription>
-          </Alert>
-        )}
-
-        {submitStatus === 'error' && (
-          <Alert className="max-w-2xl mx-auto mb-6 border-red-200 bg-red-50">
-            <AlertCircle className="h-4 w-4 text-red-600" />
-            <AlertDescription className="text-red-800">
-              There was an error submitting your registration. Please try again or contact support.
-            </AlertDescription>
-          </Alert>
-        )}
-
         <Card className="max-w-2xl mx-auto">
           <CardHeader>
             <CardTitle className="text-2xl">Account Information</CardTitle>
@@ -114,7 +55,7 @@ const OpenAccount = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="firstName">First Name</Label>
@@ -126,7 +67,6 @@ const OpenAccount = () => {
                     value={formData.firstName}
                     onChange={handleInputChange}
                     className="mt-1"
-                    disabled={isLoading}
                   />
                 </div>
                 <div>
@@ -139,7 +79,6 @@ const OpenAccount = () => {
                     value={formData.lastName}
                     onChange={handleInputChange}
                     className="mt-1"
-                    disabled={isLoading}
                   />
                 </div>
               </div>
@@ -154,7 +93,6 @@ const OpenAccount = () => {
                   value={formData.email}
                   onChange={handleInputChange}
                   className="mt-1"
-                  disabled={isLoading}
                 />
               </div>
 
@@ -168,7 +106,6 @@ const OpenAccount = () => {
                   value={formData.phone}
                   onChange={handleInputChange}
                   className="mt-1"
-                  disabled={isLoading}
                 />
               </div>
 
@@ -182,7 +119,6 @@ const OpenAccount = () => {
                   value={formData.investmentExperience}
                   onChange={handleInputChange}
                   className="mt-1"
-                  disabled={isLoading}
                 />
               </div>
 
@@ -196,7 +132,6 @@ const OpenAccount = () => {
                   value={formData.riskTolerance}
                   onChange={handleInputChange}
                   className="mt-1"
-                  disabled={isLoading}
                 />
               </div>
 
@@ -210,7 +145,6 @@ const OpenAccount = () => {
                   value={formData.initialInvestment}
                   onChange={handleInputChange}
                   className="mt-1"
-                  disabled={isLoading}
                 />
               </div>
 
@@ -224,26 +158,16 @@ const OpenAccount = () => {
                   onChange={handleInputChange}
                   className="mt-1"
                   rows={4}
-                  disabled={isLoading}
                 />
               </div>
 
               <Button 
-                type="button"
-                onClick={handleSubmit}
+                type="submit" 
                 className="w-full bg-black text-white hover:bg-gray-800 py-3 text-lg"
-                disabled={isLoading}
               >
-                {isLoading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Submitting Application...
-                  </>
-                ) : (
-                  'Submit Application'
-                )}
+                Submit Application
               </Button>
-            </div>
+            </form>
           </CardContent>
         </Card>
 
@@ -253,7 +177,8 @@ const OpenAccount = () => {
             Our team will review your application and contact you within 24-48 hours.
           </p>
         </div>
-        </main>
+      </main>
+
       <Footer />
     </div>
   );
