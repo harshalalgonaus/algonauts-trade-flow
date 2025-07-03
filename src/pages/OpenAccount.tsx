@@ -1,7 +1,7 @@
 import { useState } from 'react';
+import { Button } from '@/components/ui/button';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
@@ -253,7 +253,8 @@ const OpenAccount = () => {
             Our team will review your application and contact you within 24-48 hours.
           </p>
         </div>
-        </main>
+      </main>
+
       <Footer />
     </div>
   );
