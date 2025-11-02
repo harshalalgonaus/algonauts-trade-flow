@@ -29,11 +29,6 @@ const ViewStrategies = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Test if modal opens
-  useEffect(() => {
-    console.log('Component mounted. showMainStrategy:', showMainStrategy);
-  }, [showMainStrategy]);
-
   // Sample data for cash management performance
   const cashManagementData = [
     { month: 'Jan', returns: 8.5, benchmark: 6.2 },
@@ -127,31 +122,35 @@ const ViewStrategies = () => {
   };
 
   const fetchMainStrategy = async () => {
-    console.log('Fetching main strategy...');
     setIsLoading(true);
     setError(null);
+    setShowMainStrategy(false);
+    
     try {
-      console.log('Making API call...');
-      const response = await fetch('https://qk37gu9jsd.execute-api.ap-south-1.amazonaws.com/prod/legacy-algo-website');
-      console.log('Response received:', response.status);
+      const response = await fetch('https://qk37gu9jsd.execute-api.ap-south-1.amazonaws.com/prod/legacy-algo-website', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
       
       if (!response.ok) {
-        throw new Error(`Failed to fetch strategy data: ${response.status}`);
+        throw new Error(`API Error: ${response.status} ${response.statusText}`);
       }
       
       const result = await response.json();
-      console.log('Data received:', result);
       
-      setStrategyData(result.data || []);
-      console.log('Setting modal to open...');
-      setShowMainStrategy(true);
+      if (result && result.data && Array.isArray(result.data)) {
+        setStrategyData(result.data);
+        setShowMainStrategy(true);
+      } else {
+        throw new Error('Invalid data format received from API');
+      }
     } catch (err) {
-      console.error('Error fetching strategy:', err);
-      setError(err instanceof Error ? err.message : 'An error occurred');
-      setShowMainStrategy(true); // Open modal to show error
+      setError(err instanceof Error ? err.message : 'Failed to load strategy data');
+      setShowMainStrategy(true);
     } finally {
       setIsLoading(false);
-      console.log('Loading complete');
     }
   };
 
@@ -193,17 +192,7 @@ const ViewStrategies = () => {
             and comprehensive insights into our cash management and F&O trading systems.
           </p>
           
-          <div className="flex justify-center gap-4">
-            <Button 
-              onClick={() => {
-                console.log('Test button clicked - opening modal directly');
-                setShowMainStrategy(true);
-              }}
-              className="bg-green-600 hover:bg-green-700 text-white px-6 py-4"
-            >
-              Test Modal (Direct)
-            </Button>
-            
+          <div className="flex justify-center">
             <Button 
               onClick={fetchMainStrategy}
               disabled={isLoading}
