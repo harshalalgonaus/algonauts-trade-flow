@@ -1,18 +1,33 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
-import { TrendingUp, Target, ArrowRight, BarChart3, PieChart as PieChartIcon, Database } from 'lucide-react';
+import { TrendingUp, Target, ArrowRight, BarChart3, PieChart as PieChartIcon, Database, Activity, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import NiftyPortfolioChart from '@/components/NiftyPortfolioChart';
 import NiftyLongPortfolioChart from '@/components/NiftyLongPortfolioChart';
 
+interface StrategyData {
+  ticker: string | null;
+  side: string;
+  qty: number;
+  entry_time: string;
+  entry_price: number;
+  exit_time: string | null;
+  exit_price: number | null;
+}
+
 const ViewStrategies = () => {
   const [activeFilter, setActiveFilter] = useState('all');
+  const [showMainStrategy, setShowMainStrategy] = useState(false);
+  const [strategyData, setStrategyData] = useState<StrategyData[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Sample data for cash management performance
   const cashManagementData = [
@@ -106,6 +121,37 @@ const ViewStrategies = () => {
     },
   };
 
+  const fetchMainStrategy = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await fetch('https://qk37gu9jsd.execute-api.ap-south-1.amazonaws.com/prod/legacy-algo-website');
+      if (!response.ok) {
+        throw new Error('Failed to fetch strategy data');
+      }
+      const result = await response.json();
+      setStrategyData(result.data || []);
+      setShowMainStrategy(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const formatEntryTime = (timestamp: string) => {
+    const date = new Date(timestamp);
+    return date.toLocaleString('en-IN', {
+      year: 'numeric',
+      month: 'short',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: true
+    });
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <Header />
@@ -130,8 +176,165 @@ const ViewStrategies = () => {
             Explore our proven trading strategies with detailed performance metrics, analytics, 
             and comprehensive insights into our cash management and F&O trading systems.
           </p>
+          
+          <div className="flex justify-center">
+            <Button 
+              onClick={fetchMainStrategy}
+              disabled={isLoading}
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-6 text-lg font-semibold rounded-lg shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                  Loading Strategy...
+                </>
+              ) : (
+                <>
+                  <Activity className="mr-2 h-5 w-5" />
+                  View Main Strategy
+                </>
+              )}
+            </Button>
+          </div>
         </div>
       </section>
+
+      {/* Main Strategy Modal */}
+      <Dialog open={showMainStrategy} onOpenChange={setShowMainStrategy}>
+        <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              Main Strategy - Live Positions
+            </DialogTitle>
+            <DialogDescription className="text-base">
+              Real-time algorithmic trading positions with entry details
+            </DialogDescription>
+          </DialogHeader>
+
+          {error ? (
+            <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
+              <p className="text-red-600 font-semibold">Error loading strategy data</p>
+              <p className="text-red-500 text-sm mt-2">{error}</p>
+              <Button 
+                onClick={fetchMainStrategy}
+                className="mt-4 bg-red-600 hover:bg-red-700 text-white"
+              >
+                Retry
+              </Button>
+            </div>
+          ) : (
+            <>
+              {/* Summary Cards */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                <Card className="border-l-4 border-l-blue-500">
+                  <CardContent className="pt-4">
+                    <p className="text-sm text-gray-600 font-medium">Total Positions</p>
+                    <p className="text-2xl font-bold text-blue-600">{strategyData.length}</p>
+                  </CardContent>
+                </Card>
+                <Card className="border-l-4 border-l-green-500">
+                  <CardContent className="pt-4">
+                    <p className="text-sm text-gray-600 font-medium">Buy Orders</p>
+                    <p className="text-2xl font-bold text-green-600">
+                      {strategyData.filter(d => d.side === 'buy').length}
+                    </p>
+                  </CardContent>
+                </Card>
+                <Card className="border-l-4 border-l-red-500">
+                  <CardContent className="pt-4">
+                    <p className="text-sm text-gray-600 font-medium">Sell Orders</p>
+                    <p className="text-2xl font-bold text-red-600">
+                      {strategyData.filter(d => d.side === 'sell').length}
+                    </p>
+                  </CardContent>
+                </Card>
+                <Card className="border-l-4 border-l-purple-500">
+                  <CardContent className="pt-4">
+                    <p className="text-sm text-gray-600 font-medium">Total Quantity</p>
+                    <p className="text-2xl font-bold text-purple-600">
+                      {strategyData.reduce((sum, d) => sum + d.qty, 0).toLocaleString()}
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Strategy Table */}
+              <div className="border rounded-lg overflow-hidden shadow-lg">
+                <div className="bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-4">
+                  <h3 className="text-white font-semibold text-lg flex items-center">
+                    <Database className="mr-2 h-5 w-5" />
+                    Live Trading Positions
+                  </h3>
+                </div>
+                <div className="overflow-x-auto bg-white">
+                  <Table>
+                    <TableHeader>
+                      <TableRow className="bg-gray-50">
+                        <TableHead className="font-bold text-gray-700">#</TableHead>
+                        <TableHead className="font-bold text-gray-700">Ticker</TableHead>
+                        <TableHead className="font-bold text-gray-700">Side</TableHead>
+                        <TableHead className="font-bold text-gray-700">Quantity</TableHead>
+                        <TableHead className="font-bold text-gray-700">Entry Price</TableHead>
+                        <TableHead className="font-bold text-gray-700">Entry Time</TableHead>
+                        <TableHead className="font-bold text-gray-700">Status</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {strategyData.map((position, index) => (
+                        <TableRow 
+                          key={index}
+                          className="hover:bg-gray-50 transition-colors"
+                        >
+                          <TableCell className="font-medium text-gray-600">
+                            {index + 1}
+                          </TableCell>
+                          <TableCell className="font-bold text-blue-600">
+                            {position.ticker || 'N/A'}
+                          </TableCell>
+                          <TableCell>
+                            <span className={`px-3 py-1 rounded-full text-xs font-semibold uppercase ${
+                              position.side === 'buy' 
+                                ? 'bg-green-100 text-green-700 border border-green-300' 
+                                : 'bg-red-100 text-red-700 border border-red-300'
+                            }`}>
+                              {position.side}
+                            </span>
+                          </TableCell>
+                          <TableCell className="font-semibold text-gray-700">
+                            {position.qty.toLocaleString()}
+                          </TableCell>
+                          <TableCell className="font-semibold text-purple-600">
+                            ₹{position.entry_price.toFixed(2)}
+                          </TableCell>
+                          <TableCell className="text-sm text-gray-600 font-mono">
+                            {formatEntryTime(position.entry_time)}
+                          </TableCell>
+                          <TableCell>
+                            <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                              position.exit_time 
+                                ? 'bg-gray-100 text-gray-700 border border-gray-300' 
+                                : 'bg-blue-100 text-blue-700 border border-blue-300'
+                            }`}>
+                              {position.exit_time ? 'CLOSED' : 'ACTIVE'}
+                            </span>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              </div>
+
+              <div className="mt-4 bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <p className="text-sm text-blue-800">
+                  <strong>Note:</strong> This data is fetched in real-time from our algorithmic trading system. 
+                  Positions are updated dynamically based on market conditions and strategy signals.
+                </p>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
 
       {/* Strategy Overview */}
       <section className="py-20 bg-gray-50">
