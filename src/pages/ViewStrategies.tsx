@@ -127,7 +127,7 @@ const ViewStrategies = () => {
     setShowMainStrategy(false);
     
     try {
-      const response = await fetch('https://qk37gu9jsd.execute-api.ap-south-1.amazonaws.com/prod/legacy-algo-website', {
+      const response = await fetch('https://qk37gu9jsd.execute-api.ap-south-1.amazonaws.com/prod/legacy-algo-website/', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -227,46 +227,96 @@ const ViewStrategies = () => {
           </DialogHeader>
 
           {error ? (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
-              <p className="text-red-600 font-semibold">Error loading strategy data</p>
-              <p className="text-red-500 text-sm mt-2">{error}</p>
-              <Button 
-                onClick={fetchMainStrategy}
-                className="mt-4 bg-red-600 hover:bg-red-700 text-white"
-              >
-                Retry
-              </Button>
+            <div className="bg-red-50 border-l-4 border-red-500 rounded-lg p-6">
+              <div className="flex items-start">
+                <div className="flex-shrink-0">
+                  <svg className="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                </div>
+                <div className="ml-3 flex-1">
+                  <h3 className="text-lg font-semibold text-red-800 mb-2">Unable to Load Strategy Data</h3>
+                  <p className="text-sm text-red-700 mb-4">{error}</p>
+                  
+                  {error.includes('CORS') && (
+                    <div className="bg-yellow-50 border border-yellow-200 rounded-md p-4 mb-4">
+                      <h4 className="text-sm font-semibold text-yellow-800 mb-2">💡 Why is this happening?</h4>
+                      <ul className="text-sm text-yellow-700 space-y-1 list-disc list-inside">
+                        <li>The API works in Postman but not in the browser due to CORS security</li>
+                        <li>The API Gateway needs to be configured to allow browser requests</li>
+                        <li>This is a server-side configuration issue, not a code problem</li>
+                      </ul>
+                      
+                      <h4 className="text-sm font-semibold text-yellow-800 mt-3 mb-2">🔧 Solution for API Administrator:</h4>
+                      <ol className="text-sm text-yellow-700 space-y-1 list-decimal list-inside">
+                        <li>Go to AWS API Gateway console</li>
+                        <li>Select the API: <code className="bg-yellow-100 px-1 rounded">legacy-algo-website</code></li>
+                        <li>Enable CORS with these headers:
+                          <ul className="ml-6 mt-1 space-y-1">
+                            <li>• Access-Control-Allow-Origin: *</li>
+                            <li>• Access-Control-Allow-Methods: GET, OPTIONS</li>
+                            <li>• Access-Control-Allow-Headers: Content-Type</li>
+                          </ul>
+                        </li>
+                        <li>Deploy the API after making changes</li>
+                      </ol>
+                    </div>
+                  )}
+                  
+                  <div className="flex gap-3">
+                    <Button 
+                      onClick={fetchMainStrategy}
+                      className="bg-red-600 hover:bg-red-700 text-white"
+                    >
+                      Try Again
+                    </Button>
+                    {/* <Button 
+                      onClick={() => window.open('https://qk37gu9jsd.execute-api.ap-south-1.amazonaws.com/prod/legacy-algo-website', '_blank')}
+                      variant="outline"
+                      className="border-red-300 text-red-700 hover:bg-red-50"
+                    >
+                      Open API Directly
+                    </Button> */}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : strategyData.length === 0 ? (
+            <div className="bg-gray-50 border border-gray-200 rounded-lg p-12 text-center">
+              <Database className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+              <p className="text-gray-600 font-semibold text-lg">No positions available</p>
+              <p className="text-gray-500 text-sm mt-2">Strategy data will appear here when positions are active</p>
             </div>
           ) : (
             <>
               {/* Summary Cards */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                <Card className="border-l-4 border-l-blue-500">
+                <Card className="border-l-4 border-l-blue-500 shadow-md hover:shadow-lg transition-shadow">
                   <CardContent className="pt-4">
-                    <p className="text-sm text-gray-600 font-medium">Total Positions</p>
-                    <p className="text-2xl font-bold text-blue-600">{strategyData.length}</p>
+                    <p className="text-xs uppercase tracking-wide text-gray-500 font-semibold mb-1">Total Positions</p>
+                    <p className="text-3xl font-bold text-blue-600">{strategyData.length}</p>
                   </CardContent>
                 </Card>
-                <Card className="border-l-4 border-l-green-500">
+                <Card className="border-l-4 border-l-green-500 shadow-md hover:shadow-lg transition-shadow">
                   <CardContent className="pt-4">
-                    <p className="text-sm text-gray-600 font-medium">Buy Orders</p>
-                    <p className="text-2xl font-bold text-green-600">
+                    <p className="text-xs uppercase tracking-wide text-gray-500 font-semibold mb-1">Buy Orders</p>
+                    <p className="text-3xl font-bold text-green-600">
                       {strategyData.filter(d => d.side === 'buy').length}
                     </p>
                   </CardContent>
                 </Card>
-                <Card className="border-l-4 border-l-red-500">
+                <Card className="border-l-4 border-l-red-500 shadow-md hover:shadow-lg transition-shadow">
                   <CardContent className="pt-4">
-                    <p className="text-sm text-gray-600 font-medium">Sell Orders</p>
-                    <p className="text-2xl font-bold text-red-600">
+                    <p className="text-xs uppercase tracking-wide text-gray-500 font-semibold mb-1">Sell Orders</p>
+                    <p className="text-3xl font-bold text-red-600">
                       {strategyData.filter(d => d.side === 'sell').length}
                     </p>
                   </CardContent>
                 </Card>
-                <Card className="border-l-4 border-l-purple-500">
+                <Card className="border-l-4 border-l-purple-500 shadow-md hover:shadow-lg transition-shadow">
                   <CardContent className="pt-4">
-                    <p className="text-sm text-gray-600 font-medium">Total Quantity</p>
-                    <p className="text-2xl font-bold text-purple-600">
+                    <p className="text-xs uppercase tracking-wide text-gray-500 font-semibold mb-1">Total Quantity</p>
+                    <p className="text-3xl font-bold text-purple-600">
                       {strategyData.reduce((sum, d) => sum + d.qty, 0).toLocaleString()}
                     </p>
                   </CardContent>
@@ -274,61 +324,62 @@ const ViewStrategies = () => {
               </div>
 
               {/* Strategy Table */}
-              <div className="border rounded-lg overflow-hidden shadow-lg">
-                <div className="bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-4">
-                  <h3 className="text-white font-semibold text-lg flex items-center">
-                    <Database className="mr-2 h-5 w-5" />
+              <div className="border rounded-xl overflow-hidden shadow-2xl">
+                <div className="bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 px-6 py-5">
+                  <h3 className="text-white font-bold text-xl flex items-center">
+                    <Database className="mr-3 h-6 w-6" />
                     Live Trading Positions
                   </h3>
+                  <p className="text-blue-200 text-sm mt-1">Real-time algorithmic execution data</p>
                 </div>
-                <div className="overflow-x-auto bg-white">
+                <div className="overflow-x-auto bg-gradient-to-b from-white to-gray-50">
                   <Table>
                     <TableHeader>
-                      <TableRow className="bg-gray-50">
-                        <TableHead className="font-bold text-gray-700">#</TableHead>
-                        <TableHead className="font-bold text-gray-700">Ticker</TableHead>
-                        <TableHead className="font-bold text-gray-700">Side</TableHead>
-                        <TableHead className="font-bold text-gray-700">Quantity</TableHead>
-                        <TableHead className="font-bold text-gray-700">Entry Price</TableHead>
-                        <TableHead className="font-bold text-gray-700">Entry Time</TableHead>
-                        <TableHead className="font-bold text-gray-700">Status</TableHead>
+                      <TableRow className="bg-gradient-to-r from-gray-100 to-gray-50 border-b-2 border-gray-200">
+                        <TableHead className="font-bold text-gray-800 uppercase text-xs tracking-wider">#</TableHead>
+                        <TableHead className="font-bold text-gray-800 uppercase text-xs tracking-wider">Ticker</TableHead>
+                        <TableHead className="font-bold text-gray-800 uppercase text-xs tracking-wider">Side</TableHead>
+                        <TableHead className="font-bold text-gray-800 uppercase text-xs tracking-wider">Quantity</TableHead>
+                        <TableHead className="font-bold text-gray-800 uppercase text-xs tracking-wider">Entry Price</TableHead>
+                        <TableHead className="font-bold text-gray-800 uppercase text-xs tracking-wider">Entry Time</TableHead>
+                        <TableHead className="font-bold text-gray-800 uppercase text-xs tracking-wider">Status</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {strategyData.map((position, index) => (
                         <TableRow 
                           key={index}
-                          className="hover:bg-gray-50 transition-colors"
+                          className="hover:bg-blue-50 transition-all duration-200 border-b border-gray-100"
                         >
-                          <TableCell className="font-medium text-gray-600">
-                            {index + 1}
+                          <TableCell className="font-bold text-gray-500">
+                            {String(index + 1).padStart(2, '0')}
                           </TableCell>
-                          <TableCell className="font-bold text-blue-600">
-                            {position.ticker || 'N/A'}
+                          <TableCell className="font-bold text-blue-700 text-base">
+                            {position.ticker || <span className="text-gray-400 italic">Not Available</span>}
                           </TableCell>
                           <TableCell>
-                            <span className={`px-3 py-1 rounded-full text-xs font-semibold uppercase ${
+                            <span className={`px-4 py-1.5 rounded-md text-xs font-bold uppercase tracking-wide shadow-sm ${
                               position.side === 'buy' 
-                                ? 'bg-green-100 text-green-700 border border-green-300' 
-                                : 'bg-red-100 text-red-700 border border-red-300'
+                                ? 'bg-gradient-to-r from-green-500 to-green-600 text-white' 
+                                : 'bg-gradient-to-r from-red-500 to-red-600 text-white'
                             }`}>
                               {position.side}
                             </span>
                           </TableCell>
-                          <TableCell className="font-semibold text-gray-700">
+                          <TableCell className="font-bold text-gray-800 text-base">
                             {position.qty.toLocaleString()}
                           </TableCell>
-                          <TableCell className="font-semibold text-purple-600">
+                          <TableCell className="font-bold text-purple-700 text-base">
                             ₹{position.entry_price.toFixed(2)}
                           </TableCell>
-                          <TableCell className="text-sm text-gray-600 font-mono">
+                          <TableCell className="text-sm text-gray-700 font-mono bg-gray-50 rounded">
                             {formatEntryTime(position.entry_time)}
                           </TableCell>
                           <TableCell>
-                            <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                            <span className={`px-4 py-1.5 rounded-md text-xs font-bold uppercase tracking-wide shadow-sm ${
                               position.exit_time 
-                                ? 'bg-gray-100 text-gray-700 border border-gray-300' 
-                                : 'bg-blue-100 text-blue-700 border border-blue-300'
+                                ? 'bg-gray-300 text-gray-700' 
+                                : 'bg-gradient-to-r from-blue-500 to-blue-600 text-white animate-pulse'
                             }`}>
                               {position.exit_time ? 'CLOSED' : 'ACTIVE'}
                             </span>
@@ -340,11 +391,25 @@ const ViewStrategies = () => {
                 </div>
               </div>
 
-              <div className="mt-4 bg-blue-50 border border-blue-200 rounded-lg p-4">
-                <p className="text-sm text-blue-800">
-                  <strong>Note:</strong> This data is fetched in real-time from our algorithmic trading system. 
-                  Positions are updated dynamically based on market conditions and strategy signals.
-                </p>
+              <div className="mt-6 bg-gradient-to-r from-blue-50 to-indigo-50 border-l-4 border-blue-500 rounded-lg p-5 shadow-md">
+                <div className="flex items-start">
+                  <Activity className="h-5 w-5 text-blue-600 mr-3 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="text-sm text-blue-900 font-semibold mb-1">Real-Time Data Feed</p>
+                    <p className="text-sm text-blue-800">
+                      This data is fetched in real-time from our algorithmic trading system. 
+                      Positions are updated dynamically based on market conditions and strategy signals.
+                      Last updated: {new Date().toLocaleString('en-IN', { 
+                        year: 'numeric', 
+                        month: 'short', 
+                        day: '2-digit', 
+                        hour: '2-digit', 
+                        minute: '2-digit',
+                        hour12: true 
+                      })}
+                    </p>
+                  </div>
+                </div>
               </div>
             </>
           )}
