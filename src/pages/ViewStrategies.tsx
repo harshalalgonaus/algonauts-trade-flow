@@ -127,7 +127,7 @@ const ViewStrategies = () => {
     setShowMainStrategy(false);
     
     try {
-      const response = await fetch('https://qk37gu9jsd.execute-api.ap-south-1.amazonaws.com/prod/legacy-algo-website/', {
+      const response = await fetch('https://cors-test.codehappy.dev/?url=https%3A%2F%2Fqk37gu9jsd.execute-api.ap-south-1.amazonaws.com%2Fprod%2Flegacy-algo-website&origin=https%3A%2F%2Fpreview--algonauts-trade-flow.lovable.app%2Fview-strategies&method=get', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
